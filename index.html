@@ -31,6 +31,8 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
 @media (prefers-reduced-motion:no-preference){.hero,.missionCard,.askPanel,.drawer,.goalTile,.card{animation:rise .55s cubic-bezier(.16,1,.3,1) both}.missionCard:nth-child(2){animation-delay:.03s}.missionCard:nth-child(3){animation-delay:.06s}.missionCard:nth-child(4){animation-delay:.09s}.card:nth-child(2n){animation-delay:.035s}.card:nth-child(3n){animation-delay:.07s}.hero{animation:heroIn .7s cubic-bezier(.16,1,.3,1) both}@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}@keyframes heroIn{from{opacity:0;transform:translateY(18px) scale(.97);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}}
 @media (max-width:420px){.hero{min-height:238px;padding:22px;border-radius:30px}.hero h1{font-size:58px}.missionDeck{grid-template-columns:1fr}.primaryMission{grid-column:auto}.primaryMission b{font-size:30px}.actions{grid-template-columns:repeat(3,1fr)}.actions button:nth-child(n+4){grid-column:span 1}.card{min-height:auto}.card:before{font-size:58px}}
 @media (display-mode:standalone){body{padding-top:max(8px,env(safe-area-inset-top))}.status small:after{content:" / installed"}}
+.doItBtn{background:linear-gradient(135deg,#4169e1,#7aa2ff)!important;color:#fff!important;border-color:rgba(122,162,255,.75)!important;box-shadow:0 0 22px rgba(65,105,225,.32);font-weight:900}
+.doItBtn:disabled{opacity:.55;filter:grayscale(.4)}
 </style>
 </head>
 <body>
@@ -120,6 +122,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -133,6 +136,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -146,6 +150,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -159,6 +164,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -172,6 +178,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -185,6 +192,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -198,6 +206,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -211,6 +220,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -224,6 +234,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -237,6 +248,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -250,6 +262,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -263,6 +276,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -276,6 +290,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -289,6 +304,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -302,6 +318,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -315,6 +332,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -328,6 +346,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -341,6 +360,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -354,6 +374,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -367,6 +388,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -380,6 +402,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -393,6 +416,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -406,6 +430,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -419,6 +444,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -432,6 +458,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -445,6 +472,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -458,6 +486,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -471,6 +500,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -484,6 +514,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -497,6 +528,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -510,6 +542,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -523,6 +556,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -536,6 +570,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -549,6 +584,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -562,6 +598,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article>
@@ -575,6 +612,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
     <button data-action="waiting">Waiting</button>
     <button data-action="snooze">Tomorrow</button>
     <button data-action="todoist">Task</button>
+    <button class="doItBtn" data-action="doit">Do It</button>
     <button data-action="hide">Hide</button>
   </div>
 </article></section>
@@ -609,7 +647,29 @@ function apply(){
   document.getElementById('listTitle').textContent=todayOnly?'Today: Top 3':(pinnedOnly?'Pinned':(filter?document.querySelector(`[data-filter="${filter}"]`)?.querySelector('b')?.textContent||'Filtered':'Move First'));
   document.getElementById('todayMode')?.classList.toggle('active',todayOnly);
 }
-document.querySelectorAll('[data-action]').forEach(btn=>btn.onclick=e=>{const c=e.target.closest('.card'); const s=get(c.dataset.id); const a=e.target.dataset.action; if(a==='pin')s.pinned=!s.pinned; if(a==='waiting')s.waiting=!s.waiting; if(a==='hide')s.hidden=true; if(a==='todoist'){const title=c.querySelector('h3')?.textContent||'Dashboard card'; const detail=c.querySelector('p')?.textContent||''; promptBox.value=`Draft a Todoist task for this dashboard card. Do not create it yet; give me the exact task title, due date suggestion, priority, and description. Card: ${title}. Context: ${detail}`; askHermes(); return;} if(a==='snooze'){s.hidden=true;s.snoozedUntil=new Date(Date.now()+24*60*60*1000).toISOString()} save(); apply();});
+const DO_IT_ENDPOINT='https://interpretation-balanced-writer-released.trycloudflare.com/api/do-it';
+function cardPayload(c){
+  return {
+    title:c.querySelector('h3')?.textContent?.trim()||'Dashboard card',
+    goal:c.dataset.goal||'', lane:c.dataset.lane||'', rank:c.dataset.rank||'', id:c.dataset.id||'',
+    description:c.querySelector('p')?.textContent?.trim()||'',
+    evidence:c.querySelector('details small')?.innerText?.trim()||''
+  };
+}
+async function doIt(c,btn){
+  const card=cardPayload(c);
+  answerBox.textContent=`Sending “${card.title}” to Hermes…`; answerBox.classList.add('show');
+  btn.disabled=true;
+  try{
+    const res=await fetch(DO_IT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({card,source:'control-room-pwa',requested_at:new Date().toISOString()})});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||`HTTP ${res.status}`);
+    answerBox.textContent=`Sent to Hermes. Watch Telegram for progress. Delivery: ${data.delivery_id||'accepted'}`;
+    toast.textContent='Sent to Hermes'; toast.classList.add('show'); setTimeout(()=>{toast.classList.remove('show');toast.textContent='Saved locally'},1200);
+  }catch(err){answerBox.textContent=`Could not send to Hermes: ${err.message||err}`;}
+  btn.disabled=false;
+}
+document.querySelectorAll('[data-action]').forEach(btn=>btn.onclick=e=>{const c=e.target.closest('.card'); const s=get(c.dataset.id); const a=e.target.dataset.action; if(a==='doit'){doIt(c,e.target); return;} if(a==='pin')s.pinned=!s.pinned; if(a==='waiting')s.waiting=!s.waiting; if(a==='hide')s.hidden=true; if(a==='todoist'){const title=c.querySelector('h3')?.textContent||'Dashboard card'; const detail=c.querySelector('p')?.textContent||''; promptBox.value=`Draft a Todoist task for this dashboard card. Do not create it yet; give me the exact task title, due date suggestion, priority, and description. Card: ${title}. Context: ${detail}`; askHermes(); return;} if(a==='snooze'){s.hidden=true;s.snoozedUntil=new Date(Date.now()+24*60*60*1000).toISOString()} save(); apply();});
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=(filter===b.dataset.filter?'':b.dataset.filter); pinnedOnly=false; todayOnly=false; apply();});
 document.getElementById('pinnedOnly')?.addEventListener('click',()=>{pinnedOnly=!pinnedOnly; filter=''; todayOnly=false; apply();});
 document.getElementById('todayMode').onclick=()=>{todayOnly=!todayOnly; pinnedOnly=false; filter=''; apply();};
