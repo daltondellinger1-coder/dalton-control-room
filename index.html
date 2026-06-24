@@ -33,6 +33,11 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
 @media (display-mode:standalone){body{padding-top:max(8px,env(safe-area-inset-top))}.status small:after{content:" / installed"}}
 .doItBtn{background:linear-gradient(135deg,#4169e1,#7aa2ff)!important;color:#fff!important;border-color:rgba(122,162,255,.75)!important;box-shadow:0 0 22px rgba(65,105,225,.32);font-weight:900}
 .doItBtn:disabled{opacity:.55;filter:grayscale(.4)}
+
+.moveFirstPanel{margin:12px 0 14px;border:1px solid rgba(122,162,255,.42);border-radius:28px;padding:16px;background:linear-gradient(150deg,rgba(65,105,225,.20),rgba(255,255,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}
+.moveFirstPanel h2{margin:0 0 8px;font-size:18px;letter-spacing:-.04em}.moveFirstPanel p{margin:0;color:#e8decd;font-size:13px;line-height:1.45}.moveFirstMeta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.moveFirstMeta div{border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:10px;background:rgba(0,0,0,.18)}.moveFirstMeta span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.moveFirstMeta b{display:block;margin-top:4px;font-size:14px}
+.connectionPanel{margin:14px 0;border:1px solid rgba(255,255,255,.11);border-radius:24px;padding:14px;background:rgba(10,12,14,.72)}.connectionPanel h2{margin:0 0 8px;font-size:17px}.connectionPanel label{display:grid;gap:6px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.connectionPanel input{width:100%;min-height:42px;border-radius:15px;border:1px solid var(--line);background:#050607;color:var(--ink);padding:0 11px;font-size:12px;text-transform:none;letter-spacing:0}.connectionActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.connectionActions button{min-height:40px;border-radius:14px;border:1px solid var(--line);background:#101418;color:#f7f2e8;font-weight:800}.connectionState{margin:9px 0 0;color:var(--muted);font-size:12px;line-height:1.35}.connectionState.good{color:#8ec5ff}.connectionState.bad{color:#ff9f9f}
+@media (max-width:420px){.moveFirstMeta{grid-template-columns:1fr}.connectionActions{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -50,6 +55,14 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
         <div class="missionCard"><span>Body lane</span><b>170 / 8%</b><small>Weekly numbers, no fantasy.</small></div>
         <div class="missionCard"><span>Family lane</span><b>2 wk / qtr</b><small>Freedom measured in trips.</small></div>
       </section>
+      <section class="moveFirstPanel" aria-label="Move First V2">
+        <h2>Move First V2</h2>
+        <p id="moveFirstSummary">The top visible card becomes the daily command. If Do It cannot reach Hermes, the app creates a permanent launch packet you can copy or share.</p>
+        <div class="moveFirstMeta">
+          <div><span>Current constraint</span><b id="currentConstraint">Loading</b></div>
+          <div><span>Dalton-only move</span><b id="daltonOnlyMove">Choose top card</b></div>
+        </div>
+      </section>
       <div class="cmd"><input id="search" placeholder="Search cards / source / lane…"><button id="clearState" title="Reset local state">↻</button></div>
       <section class="upgradeGrid">
         <button id="todayMode">Today Mode: 3</button>
@@ -66,6 +79,15 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;back
           <button class="primary" id="askHermes">Send</button>
         </div>
         <div id="hermesAnswer"></div>
+      </section>
+      <section class="connectionPanel" aria-label="Do It connection">
+        <h2>Do It connection</h2>
+        <label>Webhook endpoint <input id="doItEndpoint" placeholder="Paste stable Hermes webhook URL"></label>
+        <div class="connectionActions">
+          <button id="saveDoItEndpoint">Save endpoint</button>
+          <button id="testDoItEndpoint">Test</button>
+        </div>
+        <p class="connectionState" id="connectionState">No stale quick-tunnel baked in. Do It falls back to copy/share packet if the endpoint is blank or offline.</p>
       </section>
       <details class="drawer" open>
         <summary>Real metrics</summary>
@@ -646,8 +668,19 @@ function apply(){
   document.querySelectorAll('.goalTile').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
   document.getElementById('listTitle').textContent=todayOnly?'Today: Top 3':(pinnedOnly?'Pinned':(filter?document.querySelector(`[data-filter="${filter}"]`)?.querySelector('b')?.textContent||'Filtered':'Move First'));
   document.getElementById('todayMode')?.classList.toggle('active',todayOnly);
+  updateMoveFirst();
 }
-const DO_IT_ENDPOINT='https://interpretation-balanced-writer-released.trycloudflare.com/api/do-it';
+const endpointKey='daltonControlRoom.doItEndpoint.v2';
+const lastPacketKey='daltonControlRoom.lastLaunchPacket.v1';
+const endpointInput=document.getElementById('doItEndpoint');
+const connectionState=document.getElementById('connectionState');
+if(endpointInput) endpointInput.value=localStorage.getItem(endpointKey)||'';
+function endpoint(){return (localStorage.getItem(endpointKey)||'').trim();}
+function setConnection(message,kind=''){
+  if(!connectionState) return;
+  connectionState.textContent=message;
+  connectionState.className='connectionState '+kind;
+}
 function cardPayload(c){
   return {
     title:c.querySelector('h3')?.textContent?.trim()||'Dashboard card',
@@ -656,18 +689,69 @@ function cardPayload(c){
     evidence:c.querySelector('details small')?.innerText?.trim()||''
   };
 }
+function launchPrompt(card){
+  return `CONTROL ROOM DO IT\n\nCard: ${card.title}\nGoal: ${card.goal}\nLane: ${card.lane}\nRank: ${card.rank}\nID: ${card.id}\n\nTask for Hermes:\nAct on this card now. First verify the source context, then do the smallest safe execution step. Do not make external writes, send messages, change accounting, or modify live business systems without Dalton approval. If the task is stale, report that and propose the replacement Move First action.\n\nDescription:\n${card.description}\n\nEvidence:\n${card.evidence}`;
+}
+async function copyPacket(packet){
+  localStorage.setItem(lastPacketKey,packet.prompt);
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(packet.prompt); return 'copied';}
+  promptBox.value=packet.prompt;
+  return 'placed in Ask Hermes box';
+}
+async function shareOrCopy(packet){
+  return await copyPacket(packet);
+}
 async function doIt(c,btn){
   const card=cardPayload(c);
-  answerBox.textContent=`Sending “${card.title}” to Hermes…`; answerBox.classList.add('show');
+  const packet={card,source:'control-room-pwa',requested_at:new Date().toISOString(),prompt:launchPrompt(card)};
+  answerBox.textContent=`Launching “${card.title}”…`; answerBox.classList.add('show');
   btn.disabled=true;
+  const url=endpoint();
+  if(!url){
+    const mode=await shareOrCopy(packet);
+    answerBox.textContent=`No permanent webhook endpoint is saved, so I made this launch durable: packet ${mode}. Paste/send it to Hermes to run. Add a stable endpoint once and future Do It taps will send directly.`;
+    setConnection('Endpoint blank. Last packet saved locally and copied/shared.','bad');
+    btn.disabled=false;
+    return;
+  }
   try{
-    const res=await fetch(DO_IT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({card,source:'control-room-pwa',requested_at:new Date().toISOString()})});
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(packet)});
     const data=await res.json().catch(()=>({}));
     if(!res.ok) throw new Error(data.error||`HTTP ${res.status}`);
-    answerBox.textContent=`Sent to Hermes. Watch Telegram for progress. Delivery: ${data.delivery_id||'accepted'}`;
+    answerBox.textContent=`Sent to Hermes. Delivery: ${data.delivery_id||data.id||'accepted'}`;
+    setConnection(`Live endpoint accepted ${card.id}.`,'good');
     toast.textContent='Sent to Hermes'; toast.classList.add('show'); setTimeout(()=>{toast.classList.remove('show');toast.textContent='Saved locally'},1200);
-  }catch(err){answerBox.textContent=`Could not send to Hermes: ${err.message||err}`;}
+  }catch(err){
+    const mode=await shareOrCopy(packet);
+    answerBox.textContent=`Endpoint failed: ${err.message||err}. I preserved the action anyway: packet ${mode}.`;
+    setConnection('Endpoint failed. Fallback packet saved locally and copied/shared.','bad');
+  }
   btn.disabled=false;
+}
+document.getElementById('saveDoItEndpoint')?.addEventListener('click',()=>{
+  const value=(endpointInput?.value||'').trim();
+  if(value && !/^https:\/\//.test(value)){setConnection('Use a stable HTTPS endpoint. Localhost and temporary tunnels are not phone-safe.','bad'); return;}
+  localStorage.setItem(endpointKey,value);
+  setConnection(value?'Permanent endpoint saved on this device.':'Endpoint cleared. Do It will use copy/share fallback.','good');
+});
+document.getElementById('testDoItEndpoint')?.addEventListener('click',async()=>{
+  const url=endpoint();
+  if(!url){setConnection('No endpoint saved. Do It fallback is ready.','bad'); return;}
+  setConnection('Testing endpoint…');
+  try{
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'control-room-pwa',type:'healthcheck',requested_at:new Date().toISOString()})});
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    setConnection('Endpoint accepted the test packet.','good');
+  }catch(err){setConnection(`Endpoint test failed: ${err.message||err}`,'bad');}
+});
+function updateMoveFirst(){
+  const visible=cards.filter(c=>c.style.display!=='none'&&!c.classList.contains('isHidden'));
+  const top=visible.sort((a,b)=>Number(a.dataset.rank||999)-Number(b.dataset.rank||999))[0]||cards[0];
+  if(!top) return;
+  const card=cardPayload(top);
+  document.getElementById('currentConstraint').textContent=card.lane||card.goal||'Review';
+  document.getElementById('daltonOnlyMove').textContent=card.title;
+  document.getElementById('moveFirstSummary').textContent=`Move First is ${card.title}. Use Do It to launch Hermes, or pin/waiting/snooze to teach the control room what matters.`;
 }
 document.querySelectorAll('[data-action]').forEach(btn=>btn.onclick=e=>{const c=e.target.closest('.card'); const s=get(c.dataset.id); const a=e.target.dataset.action; if(a==='doit'){doIt(c,e.target); return;} if(a==='pin')s.pinned=!s.pinned; if(a==='waiting')s.waiting=!s.waiting; if(a==='hide')s.hidden=true; if(a==='todoist'){const title=c.querySelector('h3')?.textContent||'Dashboard card'; const detail=c.querySelector('p')?.textContent||''; promptBox.value=`Draft a Todoist task for this dashboard card. Do not create it yet; give me the exact task title, due date suggestion, priority, and description. Card: ${title}. Context: ${detail}`; askHermes(); return;} if(a==='snooze'){s.hidden=true;s.snoozedUntil=new Date(Date.now()+24*60*60*1000).toISOString()} save(); apply();});
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=(filter===b.dataset.filter?'':b.dataset.filter); pinnedOnly=false; todayOnly=false; apply();});
